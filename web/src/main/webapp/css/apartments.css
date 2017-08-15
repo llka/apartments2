@@ -1,0 +1,45 @@
+#main{
+    visibility: hidden;
+}
+#all{
+    display: none;
+}
+#available{
+    display: none;
+}
+#restInfo{
+    display: none;
+}
+
+.allRow{
+    display: flex;
+    padding: 2%;
+}
+.id{
+    text-align: center;
+    width: 10%;
+}
+.date{
+    width: 45%;
+    text-align: center;
+}
+.warning{
+    color: #999691;
+    position: absolute;
+    right: 16px;
+    top: 97%;
+}
+.cat{
+    position: absolute;
+    right: 2%;
+    top: 112%;
+}
+.url{
+    text-align: left;
+    cursor: text;
+    width: 40%;
+}
+.definition{
+    text-align: left;
+    width:60%;
+}

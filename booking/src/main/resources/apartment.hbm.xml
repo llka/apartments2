@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="ru.ilka.apartments.model.entity.Apartment" table="APARTMENTS">
+        <meta attribute="class-description">
+            This class contains the apartment detail.
+        </meta>
+        <id name="apartmentId" type="int" column="APARTMENT_ID">
+            <generator class="increment"/>
+        </id>
+        <property name="bookedFrom" column="BOOKED_FROM" type="timestamp"/>
+        <property name="bookedTo" column="BOOKED_TO" type="timestamp"/>
+    </class>
+</hibernate-mapping>
