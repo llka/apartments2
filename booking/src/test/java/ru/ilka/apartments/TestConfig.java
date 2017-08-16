@@ -6,9 +6,9 @@ import com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.ilka.apartments.model.dao.ApartmentDaoImpl;
-import ru.ilka.apartments.model.logic.ApartmentLogic;
-import ru.ilka.apartments.model.logic.RestRequestLogic;
+import ru.ilka.apartments.dao.ApartmentDaoImpl;
+import ru.ilka.apartments.logic.ApartmentLogic;
+
 
 import javax.sql.DataSource;
 
@@ -28,11 +28,6 @@ public class TestConfig {
     @Bean
     ApartmentLogic apartmentLogic(){
         return new ApartmentLogic();
-    }
-
-    @Bean
-    RestRequestLogic restRequestLogic(){
-        return new RestRequestLogic();
     }
 
     @Bean

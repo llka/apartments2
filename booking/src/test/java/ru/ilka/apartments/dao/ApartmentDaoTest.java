@@ -20,8 +20,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import ru.ilka.apartments.HibernateUtilTest;
 import ru.ilka.apartments.TestConfig;
-import ru.ilka.apartments.model.dao.ApartmentDaoImpl;
-import ru.ilka.apartments.model.entity.Apartment;
+import ru.ilka.apartments.entity.Apartment;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 

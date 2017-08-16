@@ -2,11 +2,10 @@ package ru.ilka.apartments.controller;
 
 import com.google.gson.JsonArray;
 import ru.ilka.apartments.exception.CommandException;
-import ru.ilka.apartments.model.command.ActionCommand;
-import ru.ilka.apartments.model.command.ActionFactory;
-import ru.ilka.apartments.model.entity.RestRequest;
-import ru.ilka.apartments.model.logic.RestRequestLogic;
-import ru.ilka.apartments.model.util.ContextHolder;
+import ru.ilka.apartments.command.ActionCommand;
+import ru.ilka.apartments.command.ActionFactory;
+import ru.ilka.apartments.rest.RestRequestLogic;
+import ru.ilka.apartments.util.ContextHolder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -60,13 +59,12 @@ public class Controller extends HttpServlet {
         try {
             response.setContentType(CONTENT_TYPE);
             PrintWriter printWriter;
-            try {
+
                 printWriter = response.getWriter();
                 JsonArray result = command.execute(restRequest, response);
                 printWriter.println(result);
-            } catch (IOException e) {
+        } catch (IOException e ) {
                 System.out.println("Problems in ajax ru.ilka.apartments.controller " + e);
-            }
         } catch (CommandException e) {
             System.out.println("Error in command layer " + e);
         }

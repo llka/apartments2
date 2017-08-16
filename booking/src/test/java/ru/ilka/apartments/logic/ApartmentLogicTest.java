@@ -14,9 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ru.ilka.apartments.TestConfig;
 import ru.ilka.apartments.exception.LogicException;
-import ru.ilka.apartments.model.dao.ApartmentDaoImpl;
-import ru.ilka.apartments.model.entity.Apartment;
-import ru.ilka.apartments.model.logic.ApartmentLogic;
+import ru.ilka.apartments.dao.ApartmentDaoImpl;
+import ru.ilka.apartments.entity.Apartment;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
