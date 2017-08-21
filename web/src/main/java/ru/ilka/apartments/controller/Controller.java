@@ -1,6 +1,8 @@
 package ru.ilka.apartments.controller;
 
 import com.google.gson.JsonArray;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import ru.ilka.apartments.exception.CommandException;
 import ru.ilka.apartments.command.ActionCommand;
 import ru.ilka.apartments.command.ActionFactory;
@@ -15,15 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- * Here could be your advertisement.
- * Ilya_Kisel +375 29 3880490
- */
 @WebServlet(urlPatterns = "/Ajax/*", name = "AjaxController")
 public class Controller extends HttpServlet {
     private static final long serialVersionUID = 905242440943999308L;
-
     private static final String CONTENT_TYPE = "application/json";
+
+    private static Logger logger = LogManager.getLogger(Controller.class);
 
     @Override
     public void init() throws ServletException {
@@ -58,15 +57,27 @@ public class Controller extends HttpServlet {
         ActionCommand command = actionFactory.defineCommand(restRequest);
         try {
             response.setContentType(CONTENT_TYPE);
-            PrintWriter printWriter;
-
-                printWriter = response.getWriter();
-                JsonArray result = command.execute(restRequest, response);
-                printWriter.println(result);
-        } catch (IOException e ) {
-                System.out.println("Problems in ajax ru.ilka.apartments.controller " + e);
+            PrintWriter printWriter = response.getWriter();
+            JsonArray result = command.execute(restRequest, response);
+            printWriter.println(result);
+        } catch (IOException e) {
+            logger.error("Problems in controller ", e);
         } catch (CommandException e) {
-            System.out.println("Error in command layer " + e);
+            logger.error("Problems in logic ", e);
+            response.setContentType(CONTENT_TYPE);
+            PrintWriter printWriter = response.getWriter();
+            Throwable prevCause = e;
+            Throwable cause = e.getCause();
+            while (prevCause != null) {
+                if (cause.getCause() == null) {
+                    break;
+                }
+                prevCause = cause;
+                cause = cause.getCause();
+            }
+            JsonArray result = new JsonArray();
+            result.add("Ups " + cause.getMessage());
+            printWriter.println(result);
         }
     }
 }

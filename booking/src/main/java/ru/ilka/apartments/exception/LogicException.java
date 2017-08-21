@@ -1,9 +1,6 @@
 package ru.ilka.apartments.exception;
 
-/**
- * Here could be your advertisement.
- * Ilya_Kisel +375 29 3880490
- */
+
 public class LogicException extends Exception {
     public LogicException() {
     }

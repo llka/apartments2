@@ -1,42 +1,41 @@
 package ru.ilka.apartments.command;
 
-/**
- * Here could be your advertisement +375 29 3880490
- */
+import ru.ilka.apartments.util.ContextHolder;
+
 public enum CommandType {
     SHOW_ALL {
         {
-            this.command = new ShowAllCommand();
+            this.command = ContextHolder.getApplicationContext().getBean(ShowAllCommand.class);
         }
     },
     SHOW_BY_ID {
         {
-            this.command = new ShowByIdCommand();
+            this.command = ContextHolder.getApplicationContext().getBean(ShowByIdCommand.class);
         }
     },
     ADD{
         {
-            this.command = new AddApartmentCommand();
+            this.command = ContextHolder.getApplicationContext().getBean(AddApartmentCommand.class);
         }
     },
     BOOK{
         {
-            this.command = new BookApartmentCommand();
+            this.command = ContextHolder.getApplicationContext().getBean(BookApartmentCommand.class);
         }
     },
     DELETE{
         {
-            this.command = new DeleteApartmentCommand();
+            this.command = ContextHolder.getApplicationContext().getBean(DeleteApartmentCommand.class);
         }
     },
     DELETE_ALL{
         {
-            this.command = new DeleteAllCommand();
+            this.command = ContextHolder.getApplicationContext().getBean(DeleteAllCommand.class);
         }
     },
     SHOW_AVAILABLE {
         {
-            this.command = new ShowAvailableCommand();
+            this.command = ContextHolder.getApplicationContext().getBean(ShowAvailableCommand.class);
         }
     };
 

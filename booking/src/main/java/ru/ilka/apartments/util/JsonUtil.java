@@ -7,12 +7,8 @@ import ru.ilka.apartments.entity.Apartment;
 
 import java.util.ArrayList;
 
-/**
- * Here could be your advertisement.
- * Ilya_Kisel +375 29 3880490
- */
 public class JsonUtil {
-    public static JsonArray convertListToJson(ArrayList<Apartment> apartments){
+    public static JsonArray convertListToJson(ArrayList<Apartment> apartments) {
         Gson gson = new Gson();
         JsonElement element = gson.toJsonTree(apartments);
         JsonArray jsonArray = element.getAsJsonArray();

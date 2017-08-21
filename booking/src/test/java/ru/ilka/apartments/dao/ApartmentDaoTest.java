@@ -9,6 +9,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -21,13 +23,11 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import ru.ilka.apartments.HibernateUtilTest;
 import ru.ilka.apartments.TestConfig;
 import ru.ilka.apartments.entity.Apartment;
+import ru.ilka.apartments.exception.DaoException;
+
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-/**
- * Here could be your advertisement.
- * Ilya_Kisel +375 29 3880490
- */
 
 @ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,6 +40,8 @@ import java.util.ArrayList;
 })
 public class ApartmentDaoTest{
 
+    private static Logger logger = LoggerFactory.getLogger(ApartmentDaoTest.class);
+
     private Apartment apartment;
 
     @Autowired
@@ -47,7 +49,7 @@ public class ApartmentDaoTest{
 
     @Test
     @DatabaseSetup("/apartmentsData.xml")
-    public void shouldLoadById(){
+    public void shouldLoadById() throws DaoException {
         apartmentDao.setSession(HibernateUtilTest.getSessionFactory().openSession());
         apartmentDao.beginTransaction();
         Apartment apartment = apartmentDao.loadById(99);
@@ -56,13 +58,23 @@ public class ApartmentDaoTest{
         Assert.assertEquals(99,apartment.getApartmentId());
     }
 
+    @Test(expected = DaoException.class)
+    public void shouldThrowDaoExceptionWhenFindingWithNonexistentId() throws DaoException {
+        apartmentDao.setSession(HibernateUtilTest.getSessionFactory().openSession());
+        apartmentDao.beginTransaction();
+        apartmentDao.loadById(999);
+        apartmentDao.closeSessionWithTransaction();
+    }
+
 
     @Test
-    public void shouldLoadAndSortAllApartments(){
+    public void shouldLoadAndSortAllApartments() throws DaoException {
         apartmentDao.openSessionWithTransaction();
         ArrayList<Apartment> apartments = apartmentDao.loadAll();
-        apartments.forEach(System.out::println);
         apartmentDao.closeSessionWithTransaction();
+        for (int i = 0; i < apartments.size(); i++) {
+            logger.info(apartments.get(i).toString());
+        }
         Assert.assertTrue(apartments.get(0).getApartmentId() <= apartments.get(apartments.size()-1).getApartmentId());
     }
 
@@ -77,7 +89,7 @@ public class ApartmentDaoTest{
     @Test
     @DatabaseSetup("/apartmentsData.xml")
     @ExpectedDatabase(value ="/expectedAfterAdd.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
-    public void shouldSaveApartment(){
+    public void shouldSaveApartment() throws DaoException{
         apartmentDao.setSession(HibernateUtilTest.getSessionFactory().openSession());
         apartmentDao.beginTransaction();
         apartmentDao.save(apartment);
@@ -87,7 +99,7 @@ public class ApartmentDaoTest{
     @Test
     @DatabaseSetup("/expectedAfterAdd.xml")
     @ExpectedDatabase(value ="/expectedAfterUpdate.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
-    public void shouldUpdate(){
+    public void shouldUpdate() throws DaoException {
         apartmentDao.setSession(HibernateUtilTest.getSessionFactory().openSession());
         apartmentDao.beginTransaction();
         apartment.setBookedFrom(Timestamp.valueOf("2000-12-31 12:00:00"));
@@ -98,7 +110,7 @@ public class ApartmentDaoTest{
     @Test
     @DatabaseSetup("/expectedAfterUpdate.xml")
     @ExpectedDatabase(value ="/expectedAfterDeleteById.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
-    public void shouldDeleteById(){
+    public void shouldDeleteById() throws DaoException{
         apartmentDao.setSession(HibernateUtilTest.getSessionFactory().openSession());
         apartmentDao.beginTransaction();
         apartmentDao.delete(apartment);
@@ -108,7 +120,7 @@ public class ApartmentDaoTest{
     @Test
     @DatabaseSetup("/expectedAfterUpdate.xml")
     @ExpectedDatabase(value ="/expectedAfterDeleteAll.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
-    public void shouldDeleteAll(){
+    public void shouldDeleteAll() throws DaoException{
         apartmentDao.setSession(HibernateUtilTest.getSessionFactory().openSession());
         apartmentDao.beginTransaction();
         apartmentDao.deleteAll();

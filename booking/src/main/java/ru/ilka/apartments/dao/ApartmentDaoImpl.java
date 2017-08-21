@@ -1,28 +1,22 @@
 package ru.ilka.apartments.dao;
 
-import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
 import ru.ilka.apartments.entity.Apartment;
 import ru.ilka.apartments.entity.IDatabaseEntity;
+import ru.ilka.apartments.exception.DaoException;
 import ru.ilka.apartments.util.HibernateUtil;
 
 import java.util.ArrayList;
 
-/**
- * Created by Ilya_Kisel aka _Ilka on 8/1/2017.
- */
 @Repository
 public class ApartmentDaoImpl implements ApartmentDao {
-
-    private static final String COLUMN_ID = "apartmentId";
-
     private Session session;
     private Transaction transaction;
 
-    public ApartmentDaoImpl(){
+    public ApartmentDaoImpl() {
     }
 
     public Session getSession() {
@@ -41,45 +35,59 @@ public class ApartmentDaoImpl implements ApartmentDao {
         this.transaction = transaction;
     }
 
-    public Session openSession(){
+    public Session openSession() {
         this.session = HibernateUtil.getSessionFactory().openSession();
         return session;
     }
 
-    public void closeSession(){
+    public void closeSession() {
         this.session.close();
     }
 
-    public void beginTransaction(){
+    public void beginTransaction() {
         transaction = session.beginTransaction();
     }
 
-    public Session openSessionWithTransaction(){
-        session = HibernateUtil.getSessionFactory().openSession();
+    public Session openSessionWithTransaction() throws DaoException {
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+        } catch (HibernateException e) {
+            throw new DaoException("Session opening failed", e);
+        }
         transaction = session.beginTransaction();
         return session;
     }
 
-    public void closeSessionWithTransaction() {
+    public void closeSessionWithTransaction() throws DaoException {
         transaction.commit();
-        session.close();
+        try {
+            session.close();
+        } catch (HibernateException e) {
+            throw new DaoException("Session closing failed", e);
+        }
     }
 
     @Override
     public ArrayList<Apartment> loadAll() {
-        Criteria criteria = session.createCriteria(Apartment.class,"APARTMENTS");
-        criteria.addOrder(Order.asc(COLUMN_ID));
-        return (ArrayList<Apartment>)criteria.list();
+        return (ArrayList<Apartment>) session.createQuery("from Apartment order by apartmentId").list();
     }
 
     @Override
-    public Apartment loadById(int apartmentId) {
-        return (Apartment) session.get(Apartment.class, apartmentId);
+    public Apartment loadById(int apartmentId) throws DaoException {
+        Apartment apartment = session.get(Apartment.class, apartmentId);
+        if (apartment == null) {
+            throw new DaoException("No apartment with Id = " + apartmentId + " ");
+        }
+        return apartment;
     }
 
     @Override
-    public void update(IDatabaseEntity apartment) {
-        session.update(apartment);
+    public void update(IDatabaseEntity apartment) throws DaoException {
+        try {
+            session.update(apartment);
+        } catch (HibernateException e) {
+            throw new DaoException("Update failed", e);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package ru.ilka.apartments;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
 import com.github.springtestdbunit.bean.DatabaseConfigBean;
 import com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean;
+import org.dbunit.ext.oracle.Oracle10DataTypeFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -12,11 +13,6 @@ import ru.ilka.apartments.logic.ApartmentLogic;
 
 import javax.sql.DataSource;
 
-
-/**
- * Here could be your advertisement.
- * Ilya_Kisel +375 29 3880490
- */
 @Configuration
 @DbUnitConfiguration
 public class TestConfig {
@@ -27,7 +23,7 @@ public class TestConfig {
 
     @Bean
     ApartmentLogic apartmentLogic(){
-        return new ApartmentLogic();
+        return new ApartmentLogic(apartmentDaoImpl());
     }
 
     @Bean

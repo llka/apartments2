@@ -18,10 +18,6 @@ import ru.ilka.apartments.rest.RestRequestLogic;
 
 import java.util.*;
 
-/**
- * Here could be your advertisement.
- * Ilya_Kisel +375 29 3880490
- */
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = WebTestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class RestRequestLogicTest {

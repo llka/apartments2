@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import ru.ilka.apartments.TestConfig;
+import ru.ilka.apartments.exception.DaoException;
 import ru.ilka.apartments.exception.LogicException;
 import ru.ilka.apartments.dao.ApartmentDaoImpl;
 import ru.ilka.apartments.entity.Apartment;
@@ -21,10 +22,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-/**
- * Here could be your advertisement.
- * Ilya_Kisel +375 29 3880490
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class ApartmentLogicTest {
@@ -67,7 +64,7 @@ public class ApartmentLogicTest {
     }
 
     @Test
-    public void shouldFindAllApartments() {
+    public void shouldFindAllApartments() throws LogicException, DaoException {
         //given
         when(apartmentDao.loadAll()).thenReturn(TEST_APARTMENTS);
         //when
@@ -82,7 +79,7 @@ public class ApartmentLogicTest {
     }
 
     @Test
-    public void shouldFindApartmentById() throws LogicException {
+    public void shouldFindApartmentById() throws LogicException, DaoException {
         when(apartmentDao.loadById(11)).thenReturn(TEST_OBJECT);
 
         Apartment apartment = apartmentLogic.loadById(11);

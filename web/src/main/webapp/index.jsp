@@ -1,6 +1,6 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<c:set var="context" scope="page" value="${pageContext.request.contextPath}"/>
 
 <html>
     <head>
@@ -13,23 +13,12 @@
     </head>
     <body>
         <%--header--%>
-        <div class="header" id="topnavStart">
-            <div class="title">
-                <a style="pointer-events: none;" href="#">Apartments</a>
-            </div>
-            <div>
-                <a href="#" id="showAll" onclick="showAll()">All</a>
-                <a href="#" id="showAvailable" onclick="showAvailable()">Available</a>
-                <a href="#" id="add" onclick="add()">Add apartment</a>
-                <a href="#" id="deleteAll" onclick="deleteAll()">Delete All</a>
-                <a href="#" onclick="showRestInfo()">Rest helper</a>
-            </div>
-        </div>
+        <c:import url="${context}/WEB-INF/jspf/header.jsp"/>
 
         <div class="row">
             <div id="id01" class="mask">
                 <div class="modal animate">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" >&times;</span>
+                    <span id="closeCross" class="close" >&times;</span>
                     <table class="modalMain">
                         <tr>
                             <td>Duration in days</td>
@@ -40,7 +29,7 @@
 
                         <tr>
                             <td align=center colspan=2>
-                                <button class="button" onclick="book()">Book</button>
+                                <button id="bookBtn" class="button">Book</button>
                             </td>
                         </tr>
                     </table>
@@ -81,15 +70,15 @@
                     <div id="restInfo">
                         <div class="allRow">
                             <div class="url">
-                                localhost:8089/Ajax/apartments
+                                GET  localhost:8089/Ajax/apartments
                             </div>
                             <div class="definition">
-                                Show or delete all apartments
+                                Show all apartments
                             </div>
                         </div>
                         <div class="allRow">
                             <div class="url">
-                                localhost:8089/Ajax/apartments/available
+                                GET  localhost:8089/Ajax/apartments?available=true
                             </div>
                             <div class="definition">
                                 Show all available
@@ -97,18 +86,42 @@
                         </div>
                         <div class="allRow">
                             <div class="url">
-                                localhost:8089/Ajax/apartment
+                                GET  localhost:8089/Ajax/apartments/id
                             </div>
                             <div class="definition">
-                                To add new room
+                                Show apartment by id
                             </div>
                         </div>
                         <div class="allRow">
                             <div class="url">
-                                localhost:8089/Ajax/apartment/x
+                                POST  localhost:8089/Ajax/apartments
                             </div>
                             <div class="definition">
-                                Show/delete/book apartment № x
+                                Add apartment
+                            </div>
+                        </div>
+                        <div class="allRow">
+                            <div class="url">
+                                DELETE  localhost:8089/Ajax/apartments
+                            </div>
+                            <div class="definition">
+                                Delete all apartments
+                            </div>
+                        </div>
+                        <div class="allRow">
+                            <div class="url">
+                                DELETE  localhost:8089/Ajax/apartments/id
+                            </div>
+                            <div class="definition">
+                                Delete apartment by id
+                            </div>
+                        </div>
+                        <div class="allRow">
+                            <div class="url">
+                                PUT  localhost:8089/Ajax/apartments/id?days=x
+                            </div>
+                            <div class="definition">
+                                Book apartment by id on x days
                             </div>
                         </div>
                     </div>
@@ -123,8 +136,5 @@
                 </div>
             </div>
         </div>
-        <script>
-            closeModal();
-        </script>
     </body>
 </html>

@@ -2,9 +2,7 @@ package ru.ilka.apartments.entity;
 
 import java.sql.Timestamp;
 
-/**
- * Ilya_Kisel +375 29 3880490
- */
+
 public class Apartment extends IDatabaseEntity {
 
     private int apartmentId;

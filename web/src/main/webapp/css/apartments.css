@@ -1,45 +1,54 @@
-#main{
+#main {
     visibility: hidden;
 }
-#all{
-    display: none;
-}
-#available{
-    display: none;
-}
-#restInfo{
+
+#all {
     display: none;
 }
 
-.allRow{
+#available {
+    display: none;
+}
+
+#restInfo {
+    display: none;
+}
+
+.allRow {
     display: flex;
     padding: 2%;
 }
-.id{
+
+.id {
     text-align: center;
     width: 10%;
 }
-.date{
+
+.date {
     width: 45%;
     text-align: center;
 }
-.warning{
+
+.warning {
     color: #999691;
     position: absolute;
     right: 16px;
     top: 97%;
 }
-.cat{
+
+.cat {
     position: absolute;
     right: 2%;
     top: 112%;
 }
-.url{
+
+.url {
     text-align: left;
     cursor: text;
     width: 40%;
 }
-.definition{
+
+.definition {
     text-align: left;
-    width:60%;
+    width: 60%;
 }
