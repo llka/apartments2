@@ -6,6 +6,7 @@ import ru.ilka.apartments.exception.DaoException;
 import ru.ilka.apartments.exception.LogicException;
 import ru.ilka.apartments.dao.ApartmentDaoImpl;
 import ru.ilka.apartments.entity.Apartment;
+import ru.ilka.apartments.util.JsonUtil;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 @Service
 public class ApartmentLogic {
 
-    //@Autowired
     private ApartmentDaoImpl apartmentDao;
 
     @Autowired
@@ -94,6 +94,13 @@ public class ApartmentLogic {
         apartment.setBookedFrom(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
         apartment.setBookedTo(Timestamp.valueOf(LocalDateTime.now().minusDays(1)));
         save(apartment);
+    }
+
+    public void addApartment(int newApartmentCost) throws LogicException {
+        if(newApartmentCost <= 0){
+            throw new LogicException("Apartment cost can't be negative");
+        }
+        addApartment();
     }
 
     public void bookApartment(int apartmentId, int duration) throws LogicException {

@@ -8,6 +8,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,6 +28,8 @@ import java.util.ArrayList;
 @ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class ApartmentLogicTest {
     private Apartment TEST_OBJECT = new Apartment();
+
+    private static Logger logger = LoggerFactory.getLogger(ApartmentLogicTest.class);
 
     private ArrayList<Apartment> TEST_APARTMENTS = new ArrayList<>();
 
@@ -69,6 +73,9 @@ public class ApartmentLogicTest {
         when(apartmentDao.loadAll()).thenReturn(TEST_APARTMENTS);
         //when
         ArrayList<Apartment> apartments = apartmentLogic.loadAll();
+        for (int i = 0; i < apartments.size(); i++) {
+            logger.info(apartments.get(i).toString());
+        }
         //then
         Assert.assertEquals(apartments.size(),TEST_APARTMENTS.size());
 

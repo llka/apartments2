@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.ilka.apartments.dao.ApartmentDaoImpl;
 import ru.ilka.apartments.logic.ApartmentLogic;
+import ru.ilka.apartments.util.JsonUtil;
 
 
 import javax.sql.DataSource;

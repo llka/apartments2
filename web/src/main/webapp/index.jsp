@@ -9,7 +9,7 @@
         <link type="text/css" rel="stylesheet" href="css/common.css"/>
         <link type="text/css" rel="stylesheet" href="css/apartments.css"/>
         <script src="js/jquery-1.10.2.js"></script>
-        <script src="js/index.js" type="text/javascript"></script>
+        <script src="js/index.js"></script>
     </head>
     <body>
         <%--header--%>
@@ -40,27 +40,27 @@
                 <div class="description" id="main">
                     <h3 id="title" style="text-align: center;"></h3>
                     <div id="all">
-                        <div class="allRow">
-                            <div class="id">
+                        <div class="apartmentsRow">
+                            <div class="apartmentsRow__item apartmentsRow__item_size_s">
                                 №:
                             </div>
-                            <div class="date">
+                            <div class="apartmentsRow__item apartmentsRow__item_size_m">
                                 booked from:
                             </div>
-                            <div class="date">
+                            <div class="apartmentsRow__item apartmentsRow__item_size_m">
                                 booked to:
                             </div>
                         </div>
                     </div>
                     <div id="available">
-                        <div class="allRow">
-                            <div class="id">
+                        <div class="apartmentsRow">
+                            <div class="apartmentsRow__item apartmentsRow__item_size_s">
                                 №:
                             </div>
-                            <div class="date">
+                            <div class="apartmentsRow__item apartmentsRow__item_size_m">
                                 costs:
                             </div>
-                            <div class="date">
+                            <div class="apartmentsRow__item apartmentsRow__item_size_m">
 
                             </div>
                         </div>
@@ -68,59 +68,59 @@
                     <div id="apartments">
                     </div>
                     <div id="restInfo">
-                        <div class="allRow">
-                            <div class="url">
+                        <div class="restInfoRow">
+                            <div class="restInfoRow__url">
                                 GET  localhost:8089/Ajax/apartments
                             </div>
-                            <div class="definition">
+                            <div class="restInfoRow__definition">
                                 Show all apartments
                             </div>
                         </div>
-                        <div class="allRow">
-                            <div class="url">
+                        <div class="restInfoRow">
+                            <div class="restInfoRow__url">
                                 GET  localhost:8089/Ajax/apartments?available=true
                             </div>
-                            <div class="definition">
+                            <div class="restInfoRow__definition">
                                 Show all available
                             </div>
                         </div>
-                        <div class="allRow">
-                            <div class="url">
+                        <div class="restInfoRow">
+                            <div class="restInfoRow__url">
                                 GET  localhost:8089/Ajax/apartments/id
                             </div>
-                            <div class="definition">
+                            <div class="restInfoRow__definition">
                                 Show apartment by id
                             </div>
                         </div>
-                        <div class="allRow">
-                            <div class="url">
+                        <div class="restInfoRow">
+                            <div class="restInfoRow__url">
                                 POST  localhost:8089/Ajax/apartments
                             </div>
-                            <div class="definition">
+                            <div class="restInfoRow__definition">
                                 Add apartment
                             </div>
                         </div>
-                        <div class="allRow">
-                            <div class="url">
+                        <div class="restInfoRow">
+                            <div class="restInfoRow__url">
                                 DELETE  localhost:8089/Ajax/apartments
                             </div>
-                            <div class="definition">
+                            <div class="restInfoRow__definition">
                                 Delete all apartments
                             </div>
                         </div>
-                        <div class="allRow">
-                            <div class="url">
+                        <div class="restInfoRow">
+                            <div class="restInfoRow__url">
                                 DELETE  localhost:8089/Ajax/apartments/id
                             </div>
-                            <div class="definition">
+                            <div class="restInfoRow__definition">
                                 Delete apartment by id
                             </div>
                         </div>
-                        <div class="allRow">
-                            <div class="url">
+                        <div class="restInfoRow">
+                            <div class="restInfoRow__url">
                                 PUT  localhost:8089/Ajax/apartments/id?days=x
                             </div>
-                            <div class="definition">
+                            <div class="restInfoRow__definition">
                                 Book apartment by id on x days
                             </div>
                         </div>
@@ -128,11 +128,13 @@
                 </div>
             </div>
             <div class="col-1">
-                <div class="warning">
-                    Do not scroll down!
-                </div>
-                <div class="cat">
-                    <img src="/image/ripndip.png">
+                <div class="fun fun_direction_rightBottom">
+                    <div class="fun__title">
+                        Do not scroll down!
+                    </div>
+                    <div class="fun__image">
+                        <img src="/image/ripndip.png">
+                    </div>
                 </div>
             </div>
         </div>

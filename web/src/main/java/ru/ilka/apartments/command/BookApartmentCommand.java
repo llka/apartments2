@@ -26,7 +26,7 @@ public class BookApartmentCommand implements ActionCommand {
         try {
             apartmentLogic.bookApartment(Integer.parseInt(request.getParameter(PARAM_APARTMENT_ID)), Integer.parseInt(request.getParameter(PARAM_DURATION)));
         } catch (LogicException e) {
-            throw new CommandException("Can not biik apartment by id", e);
+            throw new CommandException("Can not book apartment by id", e);
         }
         ArrayList<Apartment> apartments = null;
         try {

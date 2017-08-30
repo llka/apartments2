@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.HashMap;
 
-
 public class RestRequest extends HttpServletRequestWrapper {
 
     private HashMap<String, String> params = new HashMap();

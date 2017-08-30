@@ -1,7 +1,8 @@
 (function () {
     var bookingApartmentId = -1;
+    var bookButtonsId = [];
 
-    var $restInfo, $title, $main, $all, $available, $apartments;
+    var $restInfo, $title, $main, $all, $available, $apartments, $modal;
 
     //Caching Selectors
     $(document).ready(function () {
@@ -11,26 +12,8 @@
         $all = $('#all');
         $available = $('#available');
         $apartments = $('#apartments');
+        $modal = $('#id01');
     });
-
-    // function Selector_Cache() {
-    //     var collection = {};
-    //
-    //     function get_from_cache( selector ) {
-    //         if ( undefined === collection[ selector ] ) {
-    //             collection[ selector ] = $( selector );
-    //         }
-    //
-    //         return collection[ selector ];
-    //     }
-    //
-    //     return { get: get_from_cache };
-    // }
-    //
-    // var selectors = new Selector_Cache();
-    //
-    // // Usage $( '#element' ) becomes
-    // selectors.get( '#element' );
 
     function showAll() {
         $restInfo.hide();
@@ -76,7 +59,7 @@
                 },
                 contentType: "application/json",
                 success: function (data) {
-                    alert("New apartment is registered")
+                    alert("New apartment is registered");
                     $title.html("All");
                     perfectShow(data);
                 }
@@ -92,7 +75,7 @@
                 data: {
                     command: "BOOK",
                     apartmentId: bookingApartmentId,
-                    duration: $('#duration').val()
+                    duration: $('#duration').val() * 24
                 },
                 contentType: "application/json",
                 success: function (data) {
@@ -104,8 +87,7 @@
             });
         });
 
-        var bookModal = document.getElementById('id01')
-        bookModal.style.display = 'none';
+        $modal.hide();
     }
 
     function deleteAll() {
@@ -119,7 +101,7 @@
                 contentType: "application/json",
                 success: function (data) {
                     alert("There are no apartments now.")
-                    $main.css("visibility","hidden");
+                    $main.css("visibility", "hidden");
                     $all.hide();
                     $available.hide();
                 }
@@ -128,9 +110,8 @@
     }
 
     function showBookModal(id) {
-        var bookModal = document.getElementById('id01')
-        bookModal.style.display = 'block';
         bookingApartmentId = id;
+        $modal.show();
     }
 
     function perfectShow(array) {
@@ -139,13 +120,13 @@
         $all.show();
 
         for (var i = 0; i < array.length; i++) {
-            $apartments.append('<div class="allRow">' +
-                ' <div class="id">' + array[i].apartmentId + '</div>' +
-                ' <div class="date">' + array[i].bookedFrom + '</div>' +
-                ' <div class="date">' + array[i].bookedTo + '</div>' +
+            $apartments.append('<div class="apartmentsRow">' +
+                ' <div class="apartmentsRow__item apartmentsRow__item_size_s">' + array[i].apartmentId + '</div>' +
+                ' <div class="apartmentsRow__item apartmentsRow__item_size_m">' + array[i].bookedFrom + '</div>' +
+                ' <div class="apartmentsRow__item apartmentsRow__item_size_m">' + array[i].bookedTo + '</div>' +
                 '</div>');
         }
-        $main.css("visibility","visible");
+        $main.css("visibility", "visible");
     }
 
     function perfectShowAvailable(array) {
@@ -153,19 +134,30 @@
         $all.hide();
         $available.show();
 
+        bookButtonsId.splice(0, bookButtonsId.length);
+
         for (var i = 0; i < array.length; i++) {
             $apartments.append(
-                '<div class="allRow">' +
-                ' <div class="id">' + array[i].apartmentId + '</div>' +
-                ' <div class="date">' + '</div>' +
-                ' <div class="date"><button class="button" onclick=\"showBookModal(' + array[i].apartmentId + ')\">Book</button></div>' +
+                '<div class="apartmentsRow">' +
+                ' <div class="apartmentsRow__item apartmentsRow__item_size_s">' + array[i].apartmentId + '</div>' +
+                ' <div class="apartmentsRow__item apartmentsRow__item_size_m">' + '</div>' +
+                ' <div class="apartmentsRow__item apartmentsRow__item_size_m"><button id=\"showBookModalBtn_' + array[i].apartmentId + '\" class=\"button\"' +
+                '>Book</button></div>' +
                 '</div>');
+            bookButtonsId.push("#showBookModalBtn_" + array[i].apartmentId);
         }
-        $main.css("visibility","visible");
+        $main.css("visibility", "visible");
+        $(document).ready(function () {
+            for (var j = 0; j < bookButtonsId.length; j++) {
+                $(bookButtonsId[j]).click(function () {
+                    showBookModal(this.id.split("_")[1]);
+                });
+            }
+        });
     }
 
     function showRestInfo() {
-        $main.css("visibility","visible");
+        $main.css("visibility", "visible");
         $apartments.empty();
         $all.hide();
         $available.hide();
@@ -173,10 +165,10 @@
     }
 
     function closeModalOnCross() {
-        document.getElementById('id01').style.display = 'none';
+        $modal.hide();
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         $("#showAllBtn").click(showAll);
         $("#showAvailableBtn").click(showAvailable);
         $('#addBtn').click(add);
@@ -185,4 +177,4 @@
         $('#closeCross').click(closeModalOnCross);
         $('#bookBtn').click(book);
     });
- })();
+})();

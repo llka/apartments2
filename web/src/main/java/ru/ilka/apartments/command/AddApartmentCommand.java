@@ -15,13 +15,16 @@ import java.util.ArrayList;
 
 @Component
 public class AddApartmentCommand implements ActionCommand {
+    private static final String PARAM_COST = "cost";
 
     @Override
     public JsonArray execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         ApartmentLogic apartmentLogic = ContextHolder.getApplicationContext().getBean(ApartmentLogic.class);
 
+        int newApartmentCost = Integer.parseInt(request.getParameter(PARAM_COST));
+
         try {
-            apartmentLogic.addApartment();
+            apartmentLogic.addApartment(newApartmentCost);
         } catch (LogicException e) {
             throw new CommandException("Can not add apartment", e);
         }

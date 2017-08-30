@@ -4,20 +4,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.ilka.apartments.command.CommandType;
+import ru.ilka.apartments.exception.UtilException;
+import ru.ilka.apartments.util.JsonUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 @Component
 public class RestRequestLogic {
 
     private static Logger logger = LogManager.getLogger(RestRequestLogic.class);
 
+    private static final String JENKINS_CONTEXT_PATH = "/Ajax";
+
     private static final String COMMAND_PARAM = "command";
     private static final String PARAM_APARTMENT_ID = "apartmentId";
     private static final String PARAM_DURATION = "duration";
+    private static final String PARAM_COST = "cost";
 
     private static final Pattern REGEX_ALL = Pattern.compile("/apartments");
     private static final Pattern REGEX_BY_ID = Pattern.compile("/apartments/([1-9]+[0-9]*)");
@@ -32,7 +37,7 @@ public class RestRequestLogic {
 
         String pathInfo = request.getPathInfo();
 
-        if (pathInfo != null) {
+        if (pathInfo != null && !JENKINS_CONTEXT_PATH.equals(pathInfo)) {
             RestRequest restRequest = new RestRequest(request);
 
             Matcher matcher;
@@ -59,7 +64,13 @@ public class RestRequestLogic {
                 case "POST":
                     matcher = REGEX_ALL.matcher(pathInfo);
                     if (matcher.find()) {
-                        restRequest.addParameter(COMMAND_PARAM, CommandType.ADD.toString());
+                        try {
+                            String newApartmentCost = JsonUtil.readApartmentData(request.getReader());
+                            restRequest.addParameter(COMMAND_PARAM, CommandType.ADD.toString());
+                            restRequest.addParameter(PARAM_COST, newApartmentCost);
+                        } catch (UtilException | IOException e) {
+                            logger.error("Can not add new apartment");
+                        }
                         return restRequest;
                     }
                     break;

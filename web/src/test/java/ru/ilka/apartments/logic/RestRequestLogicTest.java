@@ -2,11 +2,12 @@ package ru.ilka.apartments.logic;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.junit.*;
-import static org.mockito.Mockito.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
@@ -15,6 +16,7 @@ import ru.ilka.apartments.WebTestConfig;
 import ru.ilka.apartments.command.CommandType;
 import ru.ilka.apartments.rest.RestRequest;
 import ru.ilka.apartments.rest.RestRequestLogic;
+import ru.ilka.apartments.util.ContextHolder;
 
 import java.util.*;
 
@@ -47,6 +49,8 @@ public class RestRequestLogicTest {
 
     @Parameterized.Parameters(name = "{index}: method - {0}, uri - {1}, command - {2}")
     public static Collection<Object[]> testData() {
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(WebTestConfig.class);
+        ContextHolder.setApplicationContext(applicationContext);
         return Arrays.asList(new Object[][] {
                 {"GET","apartments/",CommandType.SHOW_ALL},
                 {"DELETE","apartments/",CommandType.DELETE_ALL},
